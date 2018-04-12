@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
-import { fetchCategories } from '../utils/api'
-// import './App.css';
+import { connect } from 'react-redux';
+import '../App.css';
+import { getCategories2 } from '../actions';
 
 class App extends Component {
-  state = {
-    categories: [],
-  }
 
   componentDidMount() {
-    fetchCategories().then((categories) => {
-      this.setState({ categories })
-    })
+    this.props.getAllCategories()
   }
 
-
   render() {
-    const { categories } = this.state
+    const { categories } = this.props
     return (
       <div>
-       {categories.map((category, index) => (
-         <a key={index}>
-          {category.name}
-         </a>
+        <div>
+          <h2>Content and Comment App</h2>
+        </div>
+        {categories.map((category, index) => (
+          <button key={index}>
+            {category.name}
+          </button>
         ))}
       </div>
     );
   }
 }
+function mapStatetoProps (state) {
+  return {
+    categories: state.categories
+  }
+}
 
-export default App;
+function mapDispatchToProps (dispatch) {
+  return {
+    getAllCategories: () => dispatch(getCategories2())
+  }
+}
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(App);
