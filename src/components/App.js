@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import '../App.css';
-import { getCategories2 } from '../actions';
+import { getCategories2, selectCategory } from '../actions';
 
 class App extends Component {
 
   componentDidMount() {
     this.props.getAllCategories()
+  }
+
+  handleChange(category) {
+    this.props.selectCategory(category)
   }
 
   render() {
@@ -19,7 +23,8 @@ class App extends Component {
         </div>
         {categories.map((category, index) => (
           <Link key={index} to={category.path}>
-            <button>
+            <button
+              onClick={ e => this.handleChange(category.name)}>
               {category.name}
             </button>
           </Link>
@@ -28,15 +33,17 @@ class App extends Component {
     );
   }
 }
-function mapStatetoProps (state) {
+function mapStatetoProps(state) {
   return {
-    categories: state.categories
+    categories: state.fetchCategoriesReducer.categories,
+    category: state.selectedCategoryReducer
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    getAllCategories: () => dispatch(getCategories2())
+    getAllCategories: () => dispatch(getCategories2()),
+    selectCategory: (data) => dispatch(selectCategory(data))
   }
 }
 export default connect(
