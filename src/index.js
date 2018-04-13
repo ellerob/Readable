@@ -7,9 +7,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers'
 import { Provider } from 'react-redux';
+import Root from './components/Root'
 
 const logger = store => next => action => {
-  console.group(action.type) 
+  console.group(action.type)
   console.info('dispatching', action)
   let result = next(action)
   console.log('next state', store.getState())
@@ -28,9 +29,8 @@ const store = createStore(
 console.log(store.getState())
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>, document.getElementById('root'));
+  <Root store={store} />,
+  document.getElementById('root'));
 registerServiceWorker();
 
 

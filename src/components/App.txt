@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import '../App.css';
 import { getCategories2 } from '../actions';
+import CategoryPage from './CategoryPage';
+import HomePage from './HomePage';
 
 class App extends Component {
 
@@ -14,21 +16,21 @@ class App extends Component {
     const { categories } = this.props
     return (
       <div>
-        <div>
-          <h2>Content and Comment App</h2>
-        </div>
+        <Route exact path="/" 
+          component={HomePage}
+        />
         {categories.map((category, index) => (
-          <Link key={index} to={category.path}>
-            <button>
-              {category.name}
-            </button>
-          </Link>
+          <Route 
+            key={index}
+            path={category.path}
+            component={CategoryPage}
+          />
         ))}
       </div>
     );
   }
 }
-function mapStatetoProps (state) {
+function mapStatetoProps (state, ownProps) {
   return {
     categories: state.categories
   }
