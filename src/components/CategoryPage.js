@@ -1,29 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { fetchCategory } from '../utils/api';
-import { recievedPostsByCategory } from '../actions/index';
+import { getPostsByCategory, recievedPosts } from '../actions/post.action';
 
 
 class CategoryPage extends React.Component {
   componentDidMount() {
-    const id = this.props.match.params.id;
-    fetchCategory(id)
-      .then(data => this.props.recievedPostsByCategory(data));
-
-    // make api call to cat page
-    // using id passed in
-    // set to state when comes back
+    getPostsByCategory(this.props);
   }
 
   render() {
-    const { category } = this.props
+    const { posts } = this.props;
     return (
       <div>
         <div>
           <h1>{this.props.match.params.id}</h1>
         </div>
         <div>
+          {posts.map(post => (
+            <h3 key={post.id}>{post.title}</h3>
+          ))}
+        <div>
+          </div>
           <Link to="/">
             Home
         </Link>
@@ -33,16 +31,16 @@ class CategoryPage extends React.Component {
   }
 }
 
-function mapStatetoProps(state) {
+function mapStatetoProps(state, props) {
+  const { id } = props.match.params;
   return {
-    category: state.selectedCategoryReducer
+    posts: state.posts.posts.filter(({ category }) => category === id ? true : false)
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    recievedPostsByCategory: (data) => dispatch(recievedPostsByCategory(data)),
-    getCategory: () => dispatch({ type: null, payload: null})
+    recievedPosts: (data) => dispatch(recievedPosts(data)),
   }
 }
 

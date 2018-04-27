@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import '../App.css';
-import { getCategories2, selectCategory } from '../actions';
+import { getCategories2, selectCategory } from '../actions/category.action';
 
 
 class App extends Component {

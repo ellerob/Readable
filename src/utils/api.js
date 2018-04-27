@@ -9,8 +9,8 @@ export const fetchCategories = () =>
   .then((response) => response.json())
   .then((data) => data.categories);
 
-export const fetchCategory = (id) =>
+export const fetchPostsByCategory = (id) =>
   fetch(`${api}/${id}/posts`, { headers })
   .then((response) => response.json())
-  .then(data => data.categories)
+
 
