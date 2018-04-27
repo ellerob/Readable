@@ -9,11 +9,7 @@ const Root = ({ store }) => (
     <Router>
       <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/action" component={CategoryPage} />
-        <Route path="/comedy" component={CategoryPage} />
-        <Route path="/drama" component={CategoryPage} />
-        <Route path="/horror" component={CategoryPage} />
-        <Route path="/sci-fi" component={CategoryPage} />
+        <Route path="/category/:id" component={CategoryPage} />
       </Switch>
     </Router>
   </Provider>

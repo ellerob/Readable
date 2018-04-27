@@ -8,11 +8,11 @@ import rootReducer from './reducers'
 import Root from './components/Root'
 
 const logger = store => next => action => {
-  console.group(action.type)
-  console.info('dispatching', action)
+  // console.group(action.type)
+  // console.info('dispatching', action)
   let result = next(action)
-  console.log('next state', store.getState())
-  console.groupEnd(action.type)
+  // console.log('next state', store.getState())
+  // console.groupEnd(action.type)
   return result
 }
 
@@ -31,5 +31,6 @@ ReactDOM.render(
   document.getElementById('root'));
 registerServiceWorker();
 
+export default store
 
 

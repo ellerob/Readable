@@ -1,33 +1,26 @@
 import { combineReducers } from 'redux'
 import {
-  GET_CATEGORIES,
-  SELECT_CATEGORY
+  RECIEVED_CATEGORIES
 } from '../actions'
 
-const fetchCategoriesReducer = (state = { categories: [] }, action) => {
-  switch(action.type) {
-    case GET_CATEGORIES:
+const initialState = {
+  categories: []
+};
+
+const categoriesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case RECIEVED_CATEGORIES:
       return {
         ...state,
-        categories: action.categories
+        categories: [ ...state.categories, ...action.payload ]
       }
     default:
       return state
   }
 }
 
-const selectCategoryReducer = (state = '', action) => {
-  switch (action.type) {
-    case SELECT_CATEGORY:
-      return action.category
-    default:
-      return state
-  }
-}
-
 const rootReducer = combineReducers({
-  fetchCategoriesReducer,
-  selectCategoryReducer
+  categories: categoriesReducer,
 })
 
 export default rootReducer

@@ -1,12 +1,18 @@
 import { fetchCategories } from "../utils/api";
 
-export const GET_CATEGORIES = 'GET_CATEGORIES'
+export const RECIEVED_CATEGORIES = 'RECIEVED_CATEGORIES'
+export const RECIEVED_CATEGORY = 'RECIEVED_CATEGORY'
 export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 export const ADD_POST = 'ADD_POST'
 
 export const getCategories = (categories) => ({
-  type: GET_CATEGORIES,
-  categories
+  type: RECIEVED_CATEGORIES,
+  payload: categories
+})
+
+export const recievedPostsByCategory = (data) => ({
+  type: RECIEVED_CATEGORY,
+  payload: data
 })
 
 export const getCategories2 = () => dispatch =>

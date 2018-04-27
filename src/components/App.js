@@ -4,10 +4,16 @@ import { Link } from 'react-router-dom'
 import '../App.css';
 import { getCategories2, selectCategory } from '../actions';
 
+
 class App extends Component {
 
   componentDidMount() {
-    this.props.getAllCategories()
+    const { categories } = this.props;
+    console.log(categories);
+    
+    if(categories.length === 0 ) {
+      this.props.getAllCategories();
+    }
   }
 
   handleChange(category) {
@@ -15,28 +21,31 @@ class App extends Component {
   }
 
   render() {
-    const { categories } = this.props
+    const { categories } = this.props;
+    if (!categories || categories.length === 0) {
+      return <div>Loading</div>;
+    }
+    
+    
     return (
       <div>
         <div>
           <h2>Content and Comment App</h2>
         </div>
-        {categories.map((category, index) => (
-          <Link key={index} to={category.path}>
-            <button
-              onClick={ e => this.handleChange(category.name)}>
-              {category.name}
-            </button>
+        {categories.map((category, index) => {
+          return (
+          <Link key={index} category={category} to={`category${category.path}`}>
+            <button> {category.name} </button>
           </Link>
-        ))}
+        )})}
       </div>
     );
   }
 }
 function mapStatetoProps(state) {
+  
   return {
-    categories: state.fetchCategoriesReducer.categories,
-    category: state.selectedCategoryReducer
+    categories: state.categories.categories
   }
 }
 
