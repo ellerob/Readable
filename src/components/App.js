@@ -9,8 +9,6 @@ class App extends Component {
 
   componentDidMount() {
     const { categories } = this.props;
-    console.log(categories);
-    
     if(categories.length === 0 ) {
       this.props.getAllCategories();
     }
@@ -26,24 +24,25 @@ class App extends Component {
       return <div>Loading</div>;
     }
     
-    
     return (
       <div>
         <div>
-          <h2>Content and Comment App</h2>
+          <h1>Content and Comment App</h1>
         </div>
-        {categories.map((category, index) => {
-          return (
-          <Link key={index} category={category} to={`category${category.path}`}>
-            <button> {category.name} </button>
-          </Link>
-        )})}
+        <div className="buttons">
+          {categories.map((category, index) => {
+            return (
+            <Link key={index} category={category} to={`category${category.path}`}>
+              <button className="category-button"> {category.name} </button>
+            </Link>
+          )})}
+        </div>
       </div>
     );
   }
 }
+
 function mapStatetoProps(state) {
-  
   return {
     categories: state.categories.categories
   }

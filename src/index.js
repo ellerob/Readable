@@ -27,7 +27,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Root store={store} />,
-  document.getElementById('root'));
+document.getElementById('root'));
 registerServiceWorker();
 
 export default store

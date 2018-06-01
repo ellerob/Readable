@@ -1,32 +1,40 @@
 import React from 'react'
+import './App.css'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { getPostsByCategory, recievedPosts } from '../actions/post.action';
 
-
 class CategoryPage extends React.Component {
+  
   componentDidMount() {
     getPostsByCategory(this.props);
   }
-
+  
   render() {
+    var title = this.props.match.params.id;
+    title = title.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+      return letter.toUpperCase();
+    })
     const { posts } = this.props;
     return (
       <div>
         <div>
-          <h1>{this.props.match.params.id}</h1>
+          <h1>{title}</h1>
         </div>
-        <div>
+        <h2>Posts</h2>
           {posts.map(post => (
-            <h3 key={post.id}>{post.title}</h3>
+            <div key={post.id}>
+            <Link to={`/posts/${post.id}`}>
+              <p>{`Title: ${post.title}`}</p>
+              </Link>
+              <p>{`Author: ${post.author}`}</p>
+            </div>
           ))}
-        <div>
-          </div>
-          <Link to="/">
-            Home
+        <Link to="/add-post" >
+          <button>Add a new post</button>
         </Link>
+          <Link to="/"> Home </Link>
         </div>
-      </div>
     )
   }
 }
