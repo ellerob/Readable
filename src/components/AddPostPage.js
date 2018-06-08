@@ -1,9 +1,26 @@
 import React from 'react'
+import { connect } from 'react-redux';
 import './App.css'
-import moment from 'moment'
-import uuidv4 from 'uuid/v4'
+import uuid from 'uuid'
+import { getCategories2 } from '../actions/category.action'
+import { createPost } from '../actions/post.action'
+import { postPost } from '../utils/api';
 
 class AddPostPage extends React.Component {
+   state = {
+    title: '',
+    body: '',
+    author: '',
+    category: '',
+    errorMessage: '',
+  }
+
+  componentDidMount() {
+    const { categories } = this.props;
+    if (categories.length === 0 ) {
+      this.props.getAllCategories();
+    }
+  }
 
   updateTitle(e) {
     this.setState({ title: e.target.value })
@@ -20,67 +37,108 @@ class AddPostPage extends React.Component {
   updateAuthor(e) {
     this.setState({ author: e.target.value })
   }
-  
-  render() {
-    state: {
-      title: ''
-      body: ''
-      author: ''
-      category: ''
+
+  onSubmit() {
+  const { title, category, body, author } = this.state;
+  const { history } = this.props;
+   if (title && category && body && author) { 
+    const newPost = {
+      id: uuid(),
+      timestamp: Date.now(),
+      title,
+      body,
+      author,
+      category: category.toLowerCase()
     }
 
-    // const newPost = {
-    //   id: uuidv4(),
-    //   timestamp: moment(),
-    //   title,
-    //   body,
-    //   author,
-    //   category,
-    // }
+    this.setState({ errorMessage: '' })  
+    this.props.addPost(newPost)
+    postPost(newPost)
+      .then(history.push('/'))
+    
+  } else {
+    this.setState({ errorMessage: 'Please fill out all fields' })
+  }
 
-  
-  return(
-    <div>
-      <h1>Add a post</h1>
-      <form>
+}
+
+  render() {
+
+  const { title, body, author, errorMessage } = this.state
+  const { categories } = this.props;
+
+    return(
+      <div>
+        <h1>Add a post</h1>
         <div className="add-field">
           <label>Title</label>
-          <input
-            type="text"
-            onChange={(event) => this.updateTitle(event.target.value)}
-            />
+          <input 
+            type="text" 
+            placeholder="Title"
+            onChange={(e) => this.updateTitle(e)}
+            value={title} />
         </div>
         <div className="add-field">
           <label>Category</label>
-          <input
-            type="text"
-            onChange={(event) => this.updateCategory(event.target.value)}
-            />
+          <select
+            placeholder="Category"
+            defaultValue='none'
+            onChange={(e) => this.updateCategory(e)}>
+            <option value="none" disabled>Choose a category</option>
+            {categories.map(category => (
+              <option
+                key={category.name}
+                value={category.name}>
+                  {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="add-field">
           <label>Body</label>
           <textarea
             type="text"
-            onChange={(event) => this.updateBody(event.target.value)}
+            placeholder="Post"
+            value={body}
+            onChange={(e) => this.updateBody(e)}
             />
         </div>
         <div className="add-field">
           <label>Author</label>
           <input
             type="text"
-            onChange={(event) => this.updateAuthor(event.target.value)}
+            placeholder="Author"
+            value={author}
+            onChange={(e) => this.updateAuthor(e)}
             />
         </div>
         <button
           type="submit"
           value="submit"
+          onClick={(e) => this.onSubmit(e)}
           >Submit
         </button>
-      </form>
-    </div>
-  )
+        <p>{errorMessage}</p>
+      </div>
+    )
+  }
 }
 
+function mapStatetoProps(state) {
+  console.log('STATE', state)
+  return {
+    categories: state.categories.categories,
+  }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllCategories: () => dispatch(getCategories2()),
+    addPost: (newPost) => dispatch(createPost(newPost))
+  }
 }
 
-export default AddPostPage;
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(AddPostPage);
+

@@ -30,7 +30,8 @@ const postsReducer = (state = initialState, action) => {
     }
     case CREATE_POST:
     return {
-      ...state, newPost: {post:action.payload}
+      ...state,
+      posts: [...state.posts, action.payload]
     }
     default: 
     return state

@@ -2,9 +2,16 @@ import React from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { getPost, recievedPost } from '../actions/post.action'
+import { recievedPost } from '../actions/post.action'
 import { recievedComments, getComments } from '../actions/comments.action'
+import { fetchPost } from '../utils/api';
 import Comment from './Comment'
+
+const getPost = props => {
+  const id = props.match.params.id;
+  fetchPost(id)
+    .then(data => props.recievedPost(data));
+}
 
 class PostPage extends React.Component {
   componentDidMount() {
@@ -23,7 +30,6 @@ class PostPage extends React.Component {
         </div>
       )
     }
-   console.log('state', this.props, typeof(comments), typeof(newComments));
 
     return (
       <div>

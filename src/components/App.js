@@ -30,13 +30,17 @@ class App extends Component {
           <h1>Content and Comment App</h1>
         </div>
         <div className="buttons">
-          {categories.map((category, index) => {
+          {categories.map(category => {
             return (
-            <Link key={index} category={category} to={`category${category.path}`}>
+            <Link key={category.name} to={`category${category.path}`}>
               <button className="category-button"> {category.name} </button>
             </Link>
           )})}
         </div>
+        <Link to="/add-post" >
+          <button>Add a new post</button>
+        </Link>
+          <Link to="/"> Home </Link>
       </div>
     );
   }

@@ -1,6 +1,4 @@
 import { fetchComments } from '../utils/api'
-
-
 export const RECIEVED_COMMENTS = 'RECIEVED_COMMENTS'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 
@@ -12,7 +10,6 @@ export const getComments = props => {
 }
 
 export const recievedComments = data => {
-  debugger;
   return {
     type: RECIEVED_COMMENTS,
     payload: data

@@ -2,10 +2,16 @@ import React from 'react'
 import './App.css'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { getPostsByCategory, recievedPosts } from '../actions/post.action';
+import { recievedPosts } from '../actions/post.action';
+import { fetchPostsByCategory } from '../utils/api';
+
+const getPostsByCategory = props => {
+  const id = props.match.params.id;
+  fetchPostsByCategory(id)
+    .then(data => props.recievedPosts(data));
+}
 
 class CategoryPage extends React.Component {
-  
   componentDidMount() {
     getPostsByCategory(this.props);
   }
@@ -22,7 +28,7 @@ class CategoryPage extends React.Component {
           <h1>{title}</h1>
         </div>
         <h2>Posts</h2>
-          {posts.map(post => (
+          {posts && posts.map(post => (
             <div key={post.id}>
             <Link to={`/posts/${post.id}`}>
               <p>{`Title: ${post.title}`}</p>
@@ -30,9 +36,6 @@ class CategoryPage extends React.Component {
               <p>{`Author: ${post.author}`}</p>
             </div>
           ))}
-        <Link to="/add-post" >
-          <button>Add a new post</button>
-        </Link>
           <Link to="/"> Home </Link>
         </div>
     )
@@ -41,12 +44,15 @@ class CategoryPage extends React.Component {
 
 function mapStatetoProps(state, props) {
   const { id } = props.match.params;
+  console.log('MAPSTATETOPROPS', state.posts)
+  console.log('PROPS', props)
   return {
-    posts: state.posts.posts.filter(({ category }) => category === id ? true : false)
+    posts: state.posts.posts.filter(({ category }) => category === id)
   }
 }
 
 function mapDispatchToProps(dispatch) {
+  console.log('MAPDISPATCHTOPROPS')
   return {
     recievedPosts: (data) => dispatch(recievedPosts(data)),
   }

@@ -1,7 +1,7 @@
 const api = 'http://localhost:3001'
 
 const headers = {
-  'Authorization': 'auth'
+  'Authorization': 'auth',
 }
 
 export const fetchCategories = () =>
@@ -21,9 +21,18 @@ export const fetchComments = (id) =>
   fetch(`${api}/posts/${id}/comments`, { headers })
     .then((response) => response.json())
 
-export const postPost = (data) =>
-  fetch(`${api}/posts/`, { 
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers }
-  )
+export const postPost = (newPost) => {
+  return(
+    console.log('HERE'),
+    console.log('newPost', newPost),
+    fetch(`${api}/posts`,
+      {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPost),
+      })
+    .then(response => response.json()))
+  }

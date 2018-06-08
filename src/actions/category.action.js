@@ -8,7 +8,6 @@ export const getCategories = (categories) => ({
   payload: categories
 })
 
-
 export const getCategories2 = () => dispatch =>
   fetchCategories()
     .then((categories) => dispatch(getCategories(categories)));
