@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { RECIEVED_COMMENTS } from '../actions/comments.action'
+import { RECIEVED_COMMENTS, CREATE_COMMENT } from '../actions/comments.action'
 
 const initialState = {
   comments: []
@@ -12,7 +12,12 @@ const commentsReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: _.uniqBy([ ...state.comments, ...action.payload ], 'id')
-      }   
+      }
+    case CREATE_COMMENT:
+    return {
+      ...state,
+      comments: [...state.comments, action.payload]
+    }   
     default: 
       return state
     }

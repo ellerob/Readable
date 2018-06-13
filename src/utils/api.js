@@ -23,8 +23,6 @@ export const fetchComments = (id) =>
 
 export const postPost = (newPost) => {
   return(
-    console.log('HERE'),
-    console.log('newPost', newPost),
     fetch(`${api}/posts`,
       {
         method: 'POST',
@@ -33,6 +31,20 @@ export const postPost = (newPost) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newPost),
+      })
+    .then(response => response.json()))
+  }
+
+export const postComment = (newComment) => {
+  return(
+    fetch(`${api}/comments`,
+      {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newComment),
       })
     .then(response => response.json()))
   }

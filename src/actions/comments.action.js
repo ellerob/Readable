@@ -1,6 +1,7 @@
 import { fetchComments } from '../utils/api'
 export const RECIEVED_COMMENTS = 'RECIEVED_COMMENTS'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
+export const CREATE_COMMENT = 'CREATE_COMMENT'
 
 
 export const getComments = props => {
@@ -21,15 +22,7 @@ export const requestComments = data => ({
   payload: data
 })
 
-
-
-// export const getComment = props => {
-//   const id = props.match.params.id;
-//   fetchComment(id)
-//     .then(data => props.recievedComment(data));
-// }
-
-// export const recievedComment = data => ({
-//   type: RECIEVED_COMMENT,
-//   payload: data
-// })
+export const createComment = data => ({
+  type: CREATE_COMMENT,
+  payload: data
+})

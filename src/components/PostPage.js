@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { recievedPost } from '../actions/post.action'
 import { recievedComments, getComments } from '../actions/comments.action'
-import { fetchPost } from '../utils/api';
+import { fetchPost } from '../utils/api'
 import Comment from './Comment'
+import AddComment from './AddComment'
 
 const getPost = props => {
   const id = props.match.params.id;
@@ -49,6 +50,11 @@ class PostPage extends React.Component {
               />
             </div>
           ))}
+          <p>Add Comment</p>
+          <AddComment
+            parentId={this.props.match.params.id}
+          >
+          </AddComment>
         <Link to="/"> Home </Link>
         </div>
       </div>

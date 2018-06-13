@@ -125,7 +125,6 @@ class AddPostPage extends React.Component {
 }
 
 function mapStatetoProps(state) {
-  console.log('STATE', state)
   return {
     categories: state.categories.categories,
   }
