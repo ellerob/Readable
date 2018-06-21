@@ -17,12 +17,8 @@ export const fetchPost = (id) =>
   fetch(`${api}/posts/${id}`, { headers })
     .then((response) => response.json())
 
-export const fetchComments = (id) =>
-  fetch(`${api}/posts/${id}/comments`, { headers })
-    .then((response) => response.json())
-
 export const postPost = (newPost) => {
-  return(
+  return (
     fetch(`${api}/posts`,
       {
         method: 'POST',
@@ -32,11 +28,44 @@ export const postPost = (newPost) => {
         },
         body: JSON.stringify(newPost),
       })
-    .then(response => response.json()))
-  }
+      .then(response => response.json()))
+}
+
+export const votePostCall = (id, option) => {
+  return (
+    fetch(`${api}/posts/${id}`,
+      {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(option),
+      })
+      .then(response => response.json()))
+}
+
+export const deletePostCall = (id) => {
+  return (
+    fetch(`${api}/posts/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json()))
+}
+
+export const fetchComments = (id) =>
+  fetch(`${api}/posts/${id}/comments`, { headers })
+    .then((response) => response.json())
+
+
 
 export const postComment = (newComment) => {
-  return(
+  return (
     fetch(`${api}/comments`,
       {
         method: 'POST',
@@ -46,5 +75,46 @@ export const postComment = (newComment) => {
         },
         body: JSON.stringify(newComment),
       })
-    .then(response => response.json()))
-  }
+      .then(response => response.json()))
+}
+
+export const deleteCommentCall = (id) => {
+  return (
+    fetch(`${api}/comments/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json()))
+}
+
+export const editCommentCall = (id, toServer) => {
+  return (
+    fetch(`${api}/comments/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toServer)
+      })
+      .then(response => response.json()))
+}
+
+export const editPostCall = (id, toServer) => {
+  return (
+    fetch(`${api}/posts/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toServer)
+      })
+      .then(response => response.json()))
+}

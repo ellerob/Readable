@@ -7,7 +7,7 @@ import { createPost } from '../actions/post.action'
 import { postPost } from '../utils/api';
 
 class AddPostPage extends React.Component {
-   state = {
+  state = {
     title: '',
     body: '',
     author: '',
@@ -17,7 +17,7 @@ class AddPostPage extends React.Component {
 
   componentDidMount() {
     const { categories } = this.props;
-    if (categories.length === 0 ) {
+    if (categories.length === 0) {
       this.props.getAllCategories();
     }
   }
@@ -39,41 +39,42 @@ class AddPostPage extends React.Component {
   }
 
   onSubmit() {
-  const { title, category, body, author } = this.state;
-  const { history } = this.props;
-   if (title && category && body && author) { 
-    const newPost = {
-      id: uuid(),
-      timestamp: Date.now(),
-      title,
-      body,
-      author,
-      category: category.toLowerCase()
+    const { title, category, body, author } = this.state;
+    const { history } = this.props;
+    if (title && category && body && author) {
+      const newPost = {
+        id: uuid(),
+        timestamp: Date.now(),
+        title,
+        body,
+        author,
+        category: category.toLowerCase(),
+        voteScore: 0,
+      }
+
+      this.setState({ errorMessage: '' })
+      this.props.addPost(newPost)
+      postPost(newPost)
+        .then(history.push('/'))
+
+    } else {
+      this.setState({ errorMessage: 'Please fill out all fields' })
     }
 
-    this.setState({ errorMessage: '' })  
-    this.props.addPost(newPost)
-    postPost(newPost)
-      .then(history.push('/'))
-    
-  } else {
-    this.setState({ errorMessage: 'Please fill out all fields' })
   }
-
-}
 
   render() {
 
-  const { title, body, author, errorMessage } = this.state
-  const { categories } = this.props;
+    const { title, body, author, errorMessage } = this.state
+    const { categories } = this.props;
 
-    return(
+    return (
       <div>
         <h1>Add a post</h1>
         <div className="add-field">
           <label>Title</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Title"
             onChange={(e) => this.updateTitle(e)}
             value={title} />
@@ -89,7 +90,7 @@ class AddPostPage extends React.Component {
               <option
                 key={category.name}
                 value={category.name}>
-                  {category.name}
+                {category.name}
               </option>
             ))}
           </select>
@@ -101,7 +102,7 @@ class AddPostPage extends React.Component {
             placeholder="Post"
             value={body}
             onChange={(e) => this.updateBody(e)}
-            />
+          />
         </div>
         <div className="add-field">
           <label>Author</label>
@@ -110,13 +111,14 @@ class AddPostPage extends React.Component {
             placeholder="Author"
             value={author}
             onChange={(e) => this.updateAuthor(e)}
-            />
+          />
         </div>
         <button
+          className="submit-button"
           type="submit"
           value="submit"
           onClick={(e) => this.onSubmit(e)}
-          >Submit
+        >Submit
         </button>
         <p>{errorMessage}</p>
       </div>

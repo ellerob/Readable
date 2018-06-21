@@ -26,3 +26,60 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+h1 {
+  margin-top: 100px;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+}
+
+.add-field {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.category-button {
+  font-size: 24px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.outline {
+  border: 1px solid black;
+  padding: 10px;
+  margin-left: 350px;
+  margin-right: 350px;
+}
+
+.posts {
+  display: flex;
+}
+
+.edit-input {
+  text-align: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+input {
+  margin:30px
+}
+
+
