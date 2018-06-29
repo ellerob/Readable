@@ -23,7 +23,6 @@ const commentsReducer = (state = initialState, action) => {
         comments: state.comments.map(comment => {
           if (comment.id === action.payload.id) {
             return {
-              ...state,
               ...comment,
               voteScore: action.payload.voteScore,
             }
@@ -37,7 +36,6 @@ const commentsReducer = (state = initialState, action) => {
         comments: state.comments.map(comment => {
           if (comment.id === action.payload.id) {
             return {
-              ...state,
               ...comment,
               title: action.payload.titleNewSubmit,
               body: action.payload.bodyNewSubmit,

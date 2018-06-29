@@ -42,7 +42,6 @@ const postsReducer = (state = initialState, action) => {
         posts: state.posts.map(post => {
           if (post.id === action.payload.id) {
             return {
-              ...state,
               ...post,
               voteScore: action.payload.voteScoreNew,
             }
@@ -57,7 +56,6 @@ const postsReducer = (state = initialState, action) => {
       posts: state.posts.map(post => {
         if (post.id === action.payload.id) {
           return {
-            ...state,
             ...post,
             title: action.payload.title,
             body: action.payload.body,

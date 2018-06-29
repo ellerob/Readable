@@ -3,16 +3,23 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { recievedPost, votePost, deletePost } from '../actions/post.action'
-import { recievedComments, getComments } from '../actions/comments.action'
-import { fetchPost, votePostCall, deletePostCall } from '../utils/api'
+import { recievedComments } from '../actions/comments.action'
+import { fetchPost, deletePostCall, fetchCommentsCall } from '../utils/api'
 import Comment from './Comment'
 import AddComment from './AddComment'
 import EditPost from './EditPost'
+import { onVote } from '../utils/votingFunctions'
 
 const getPost = props => {
   const id = props.match.params.id;
   fetchPost(id)
     .then(data => props.recievedPost(data));
+}
+
+const getComments = props => {
+  const id = props.match.params.id;
+  fetchCommentsCall(id)
+    .then(data => props.recievedComments(data));
 }
 
 class PostPage extends React.Component {
@@ -25,38 +32,11 @@ class PostPage extends React.Component {
     getComments(this.props);
   }
 
-  onUpvote() {
-    const option = { option: "upVote" }
-    const voteScoreNew = this.props.post.voteScore + 1
-    this.onSubmit(voteScoreNew, option)
-  }
-
-  onDownvote() {
-    const option = { option: "downVote" }
-    const voteScoreNew = this.props.post.voteScore - 1
-    this.onSubmit(voteScoreNew, option)
-  }
-
-  onDelete() {
-    const id = this.props.match.params.id;
-    this.props.deletePost(id)
-    deletePostCall(id)
-  }
-
-  onSubmit(voteScoreNew, option) {
-    const id = this.props.match.params.id;
-    const updatedVotescore = {
-      id,
-      voteScoreNew
-    }
-    this.props.votePost(updatedVotescore)
-    votePostCall(id, option)
-  }
-
   render() {
     const { post } = this.props;
     const { comments } = this.props;
     const { editPost } = this.state;
+    let vote
     if (!post) {
       return (
         <div>
@@ -72,7 +52,8 @@ class PostPage extends React.Component {
         <p>{post.body}</p>
         <p>{`Author: ${post.author}`}</p>
         <p>{`Time Posted: ${moment(post.timestamp).format('LLLL')}`}</p>
-        <p>{`Vote Score: ${post.voteScore}`}</p>
+        <p>{`Current Score: ${post.voteScore}`}</p>
+        <p>{`Number of comments: ${post.commentCount}`}</p>
         <div className="buttons">
           <button
             onClick={(e) => this.setState({ editPost: 1 })}
@@ -80,17 +61,24 @@ class PostPage extends React.Component {
             Edit Post
           </button>
           <button
-            onClick={(e) => this.onUpvote(e)}
+            onClick={() => {
+              this.props.votePost(onVote(post.voteScore, vote = 'upVote', post.id))
+            }}
           >
             Upvote Post
           </button>
           <button
-            onClick={(e) => this.onDownvote(e)}
+            onClick={() => {
+              this.props.votePost(onVote(post.voteScore, vote = 'downVote', post.id))
+            }}
           >
             Downvote Post
           </button>
           <button
-            onClick={(e) => this.onDelete(e)}
+            onClick={(e) => {
+              this.props.deletePost(post.id)
+              deletePostCall(post.id)
+            }}
           >
             Delete Post
           </button>
@@ -136,6 +124,7 @@ class PostPage extends React.Component {
 function mapStatetoProps(state, props) {
   const { id } = props.match.params;
   return {
+    categories: state.categories.categories,
     post: state.posts.posts.find(({ id: postId }) => id === postId),
     comments: state.comments.comments.filter(({ parentId }) => id === parentId),
   }

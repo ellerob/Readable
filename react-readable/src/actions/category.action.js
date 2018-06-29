@@ -1,5 +1,3 @@
-import { fetchCategories } from "../utils/api";
-
 export const RECIEVED_CATEGORIES = 'RECIEVED_CATEGORIES'
 
 export const getCategories = (categories) => ({
@@ -7,6 +5,3 @@ export const getCategories = (categories) => ({
   payload: categories
 })
 
-export const getCategories2 = () => dispatch =>
-  fetchCategories()
-    .then((categories) => dispatch(getCategories(categories)));

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import './App.css'
 import uuid from 'uuid'
-import { getCategories2 } from '../actions/category.action'
+import { getCategories } from '../actions/category.action'
 import { createPost } from '../actions/post.action'
 import { postPost } from '../utils/api';
 
@@ -18,7 +18,7 @@ class AddPostPage extends React.Component {
   componentDidMount() {
     const { categories } = this.props;
     if (categories.length === 0) {
-      this.props.getAllCategories();
+      getCategories();
     }
   }
 
@@ -50,6 +50,7 @@ class AddPostPage extends React.Component {
         author,
         category: category.toLowerCase(),
         voteScore: 0,
+        commentCount: 0
       }
 
       this.setState({ errorMessage: '' })
@@ -133,7 +134,7 @@ function mapStatetoProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getAllCategories: () => dispatch(getCategories2()),
+    getCategories: () => dispatch(getCategories()),
     addPost: (newPost) => dispatch(createPost(newPost))
   }
 }

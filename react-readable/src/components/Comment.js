@@ -51,7 +51,7 @@ class Comments extends React.Component {
         <p>{body}</p>
         <p>{`Author: ${author}`}</p>
         <p>{`Time Posted: ${moment(timestamp).format('LLLL')}`}</p>
-        <p>{`Upvotes: ${voteScore}`}</p>
+        <p>{`Current score: ${voteScore}`}</p>
         <div className="buttons">
           <button
             onClick={(e) => this.setState({ editComment: 1 })}

@@ -24,6 +24,7 @@ class EditPost extends React.Component {
     const timestamp = Date.now()
     let body
     let title
+
     if (bodyNew.length > 0) {
       body = bodyNew
     } else {
@@ -43,6 +44,7 @@ class EditPost extends React.Component {
     const toServer={ title, body }
     this.props.editPost(updatedPost)
     editPostCall(id, toServer)
+    this.setState({titleNew: '', bodyNew: ''})
   }
 
   render() {

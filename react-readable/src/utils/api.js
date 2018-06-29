@@ -9,6 +9,10 @@ export const fetchCategories = () =>
     .then((response) => response.json())
     .then((data) => data.categories)
 
+export const fetchPosts = () =>
+  fetch(`${api}/posts`, { headers })
+    .then((response) => response.json())
+
 export const fetchPostsByCategory = (id) =>
   fetch(`${api}/${id}/posts`, { headers })
     .then((response) => response.json())
@@ -32,6 +36,7 @@ export const postPost = (newPost) => {
 }
 
 export const votePostCall = (id, option) => {
+  console.log('UPVOTE', option, id)
   return (
     fetch(`${api}/posts/${id}`,
       {
@@ -58,7 +63,22 @@ export const deletePostCall = (id) => {
       .then(response => response.json()))
 }
 
-export const fetchComments = (id) =>
+
+export const editPostCall = (id, toServer) => {
+  return (
+    fetch(`${api}/posts/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toServer)
+      })
+      .then(response => response.json()))
+}
+
+export const fetchCommentsCall = (id) =>
   fetch(`${api}/posts/${id}/comments`, { headers })
     .then((response) => response.json())
 
@@ -94,20 +114,6 @@ export const deleteCommentCall = (id) => {
 export const editCommentCall = (id, toServer) => {
   return (
     fetch(`${api}/comments/${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(toServer)
-      })
-      .then(response => response.json()))
-}
-
-export const editPostCall = (id, toServer) => {
-  return (
-    fetch(`${api}/posts/${id}`,
       {
         method: 'PUT',
         headers: {
