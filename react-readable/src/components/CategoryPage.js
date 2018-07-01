@@ -104,7 +104,6 @@ class CategoryPage extends React.Component {
         ))}
           </div>
         ))}
-        
         <Link to="/"> Home </Link>
       </div>
     )

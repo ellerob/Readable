@@ -159,7 +159,7 @@ app.get('/:category/posts', (req, res) => {
 app.get('/posts', (req, res) => {
     posts.getAll(req.token)
       .then(
-          (data) => console.log(data),
+          (data) => res.send(data),
           (error) => {
               console.error(error)
               res.status(500).send({

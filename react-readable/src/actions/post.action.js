@@ -4,6 +4,7 @@ export const CREATE_POST = 'CREATE_POST'
 export const VOTE_POST = 'VOTE_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const EDIT_POST = 'EDIT_POST'
+export const SORT_POSTS = 'SORT_POSTS'
 
 export const recievedPosts = data => ({
   type: RECIEVED_POSTS,
@@ -32,5 +33,10 @@ export const deletePost = data => ({
 
 export const editPost = data => ({
   type: EDIT_POST,
+  payload: data
+})
+
+export const sortPosts = data => ({
+  type: SORT_POSTS,
   payload: data
 })
