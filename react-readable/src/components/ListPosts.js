@@ -4,20 +4,14 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 import _ from 'lodash'
 import '../App.css';
-import { recievedPosts, votePost, deletePost, sortPosts } from '../actions/post.action'
-import { fetchPosts, deletePostCall } from '../utils/api'
+import { votePost, deletePost, sortPosts } from '../actions/post.action'
+import { deletePostCall } from '../utils/api'
 import EditPost from './EditPost'
 import { onVote } from '../utils/votingFunctions'
 
 class ListPosts extends Component {
   state = {
     editPost: 0,
-  }
-
-  componentDidMount() {
-    const { recievedPosts } = this.props;
-    fetchPosts()
-      .then(posts => recievedPosts(posts))
   }
 
   render() {
@@ -100,13 +94,11 @@ class ListPosts extends Component {
 function mapStatetoProps(state) {
   return {
     categories: state.categories.categories,
-    posts: state.posts.posts
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    recievedPosts: (posts) => dispatch(recievedPosts(posts)),
     votePost: (updatedVotescore) => dispatch(votePost(updatedVotescore)),
     deletePost: (post) => dispatch(deletePost(post)),
     sortPosts: (posts) => dispatch(sortPosts(posts))

@@ -8,6 +8,7 @@ import { fetchPost, deletePostCall, fetchCommentsCall } from '../utils/api'
 import Comment from './Comment'
 import AddComment from './AddComment'
 import EditPost from './EditPost'
+import PageNotFound from './PageNotFound'
 import { onVote } from '../utils/votingFunctions'
 
 const getPost = props => {
@@ -40,7 +41,7 @@ class PostPage extends React.Component {
     if (!post) {
       return (
         <div>
-          <div>Loading</div>
+          <PageNotFound />
           <Link to="/"> Home </Link>
         </div>
       )
@@ -75,7 +76,7 @@ class PostPage extends React.Component {
             Downvote Post
           </button>
           <button
-            onClick={(e) => {
+            onClick={() => {
               this.props.deletePost(post.id)
               deletePostCall(post.id)
             }}
@@ -84,7 +85,7 @@ class PostPage extends React.Component {
           </button>
         </div>
         {editPost === 1 &&
-          <EditPost 
+          <EditPost
             titleCurrent={post.title}
             bodyCurrent={post.body}
             id={post.id}
@@ -93,7 +94,7 @@ class PostPage extends React.Component {
         {comments.length === 0 &&
           <h2>There are no comments for this post</h2>
         }
-        {comments.length > 0 && 
+        {comments.length > 0 &&
           <h2>Comments</h2>
         }
         <div>
